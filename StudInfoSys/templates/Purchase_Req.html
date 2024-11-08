@@ -1,0 +1,405 @@
+<!-- PURCHASE REQUEST OF FDG-IMS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+  <!-- INCLUDES SIDEBAR MENU -->
+  {% include 'Sidebar.html' %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+      .pagination-button {
+            background-color: #1e9c5d;
+            color: #4a5568;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .pagination-button.active {
+            background-color: #032b55;
+            color: #6b6767;
+        }
+        .pagination-button:hover {
+            background-color: #003a77;
+            color: #6b6767;
+        }
+    </style>
+    <script src="./dist/js/demo-theme.min.js?1692870487"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const entriesSelect = document.getElementById('entries');
+          const tbody = document.getElementById('purchase-requests-body');
+          const selectAllCheckbox = document.getElementById('select-all');
+          const searchInput = document.getElementById('search');
+          const modal = document.getElementById('modal');
+          const modalContent = document.getElementById('modal-content');
+          const closeModalButton = document.getElementById('close-modal');
+          const saveModalButton = document.getElementById('save-modal');
+          const deleteEntriesButton = document.getElementById('delete-entries');
+          const paginationButtons = document.querySelectorAll('.pagination-button');
+          const currentYear = new Date().getFullYear();
+          const purchaseRequests = [
+              { no: `${currentYear}001`, products: 'Design Works', supplier: 'Carlson Limited', reason: '87956621', date: '12/15/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U001', item: 'Design Service', quantity: '10', unitPrice: '$88.70', subTotal: '$887', salesTax: '$0', shipHandling: '$0', totalAmount: '$887' },
+              { no: `${currentYear}002`, products: 'Development Works', supplier: 'Smith Corporation', reason: '87956622', date: '12/16/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U002', item: 'Development Service', quantity: '10', unitPrice: '$90.00', subTotal: '$900', salesTax: '$0', shipHandling: '$0', totalAmount: '$900' },
+              { no: `${currentYear}003`, products: 'Marketing Works', supplier: 'Johnson & Co', reason: '87956623', date: '12/17/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U003', item: 'Marketing Service', quantity: '10', unitPrice: '$95.00', subTotal: '$950', salesTax: '$0', shipHandling: '$0', totalAmount: '$950' },
+              { no: `${currentYear}004`, products: 'Consulting Works', supplier: 'Brown LLC', reason: '87956624', date: '12/18/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U004', item: 'Consulting Service', quantity: '10', unitPrice: '$100.00', subTotal: '$1000', salesTax: '$0', shipHandling: '$0', totalAmount: '$1000' },
+              { no: `${currentYear}005`, products: 'Research Works', supplier: 'Davis Group', reason: '87956625', date: '12/19/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U005', item: 'Research Service', quantity: '10', unitPrice: '$105.00', subTotal: '$1050', salesTax: '$0', shipHandling: '$0', totalAmount: '$1050' },
+              { no: `${currentYear}006`, products: 'IT Works', supplier: 'Miller Inc', reason: '87956626', date: '12/20/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U006', item: 'IT Service', quantity: '10', unitPrice: '$110.00', subTotal: '$1100', salesTax: '$0', shipHandling: '$0', totalAmount: '$1100' },
+              { no: `${currentYear}007`, products: 'HR Works', supplier: 'Wilson Ltd', reason: '87956627', date: '12/21/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U007', item: 'HR Service', quantity: '10', unitPrice: '$115.00', subTotal: '$1150', salesTax: '$0', shipHandling: '$0', totalAmount: '$1150' },
+              { no: `${currentYear}008`, products: 'Finance Works', supplier: 'Moore LLC', reason: '87956628', date: '12/22/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U008', item: 'Finance Service', quantity: '10', unitPrice: '$120.00', subTotal: '$1200', salesTax: '$0', shipHandling: '$0', totalAmount: '$1200' },
+              { no: `${currentYear}009`, products: 'Legal Works', supplier: 'Taylor & Co', reason: '87956629', date: '12/23/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U009', item: 'Legal Service', quantity: '10', unitPrice: '$125.00', subTotal: '$1250', salesTax: '$0', shipHandling: '$0', totalAmount: '$1250' },
+              { no: `${currentYear}010`, products: 'Admin Works', supplier: 'Anderson Inc', reason: '87956630', date: '12/24/17', status: 'Paid', confirmation: 'Accepted', unitNumber: 'U010', item: 'Admin Service', quantity: '10', unitPrice: '$130.00', subTotal: '$1300', salesTax: '$0', shipHandling: '$0', totalAmount: '$1300' }
+          ];
+
+          function renderTable(entries, page) {
+              tbody.innerHTML = '';
+              const start = (page - 1) * entries;
+              const end = start + entries;
+              for (let i = start; i < end; i++) {
+                  const request = purchaseRequests[i] || { no: 'N/A', products: 'N/A', supplier: 'N/A', reason: 'N/A', date: 'N/A', status: 'N/A', confirmation: 'N/A', unitNumber: 'N/A', item: 'N/A', quantity: 'N/A', unitPrice: 'N/A', subTotal: 'N/A', salesTax: 'N/A', shipHandling: 'N/A', totalAmount: 'N/A' };
+                  const confirmationClass = request.confirmation === 'Pending' ? 'text-orange-500' : request.confirmation === 'Accepted' ? 'text-green-500' : 'text-red-500';
+                  const statusClass = request.status === 'Paid' ? 'text-green-500' : 'text-red-500';
+                  const textColorClass = request.no === 'N/A' ? 'text-gray-500' : '';
+                  const row = `
+                      <tr class="${textColorClass}">
+                          <td class="py-2 px-4 border-b border-gray-200"><input type="checkbox" class="row-checkbox"></td>
+                          <td class="py-2 px-4 border-b border-gray-200">${request.no}</td>
+                          <td class="py-2 px-4 border-b border-gray-200">${request.products}</td>
+                          <td class="py-2 px-4 border-b border-gray-200">${request.supplier}</td>
+                          <td class="py-2 px-4 border-b border-gray-200" style="width: 150px;">${request.reason}</td>
+                          <td class="py-2 px-4 border-b border-gray-200">${request.date}</td>
+                          <td class="py-2 px-4 border-b border-gray-200 ${statusClass}"><i class="fas fa-circle"></i> ${request.status}</td>
+                          <td class="py-2 px-4 border-b border-gray-200 confirmation-cell ${confirmationClass}">${request.confirmation}</td>
+                          <td class="py-2 px-4 border-b border-gray-200"><button class="bg-blue-600 text-white px-4 py-2 rounded-lg view-button" data-index="${i}">View</button></td>
+                      </tr>
+                  `;
+                  tbody.innerHTML += row;
+              }
+          }
+
+
+          function toggleSelectAll() {
+              const checkboxes = document.querySelectorAll('.row-checkbox');
+              const isChecked = selectAllCheckbox.checked;
+              checkboxes.forEach((checkbox, index) => {
+                  if (index < 10) {
+                      checkbox.checked = isChecked;
+                  }
+              });
+          }
+
+          function highlightMatches() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        cells.forEach(cell => {
+            // Do not overwrite cell HTML if it contains a radio or button
+            if (!cell.querySelector('input[type="radio"]') && !cell.querySelector('.view-button')) {
+                const cellText = cell.textContent.toLowerCase();
+                if (cellText.includes(searchTerm) && searchTerm !== '') {
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    cell.innerHTML = cell.innerText.replace(regex, '<span class="bg-yellow-200">$1</span>');
+                } else {
+                    cell.innerHTML = cell.textContent;
+                }
+            }
+        });
+    });
+}
+            // Attach event listener for search input
+            searchInput.addEventListener('input', highlightMatches);
+
+             // Add click event to view buttons
+             tbody.addEventListener('click', function (event) {
+                if (event.target.classList.contains('view-button')) {
+                    const index = event.target.getAttribute('data-index');
+                    showModal(index);
+                }
+            });
+
+            // Add click event to radio buttons
+            const radioButtons = tbody.querySelectorAll('.row-radio');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('click', function () {
+                    const index = radio.getAttribute('data-index');
+                    console.log(`Radio button selected for row ${index}`);
+                    handleRadioSelection(index);
+                });
+                function handleRadioSelection(index) {
+                alert(`Radio button selected for row ${index}`);
+            }
+            });
+            
+          function showModal(index) {
+              const request = purchaseRequests[index];
+              modalContent.innerHTML = `
+                  <h2 class="text-xl font-semibold mb-4">Purchase Request Details</h2>
+                  <p><strong>No.:</strong> ${request.no}</p>
+                  <p><strong>Products:</strong> ${request.products}</p>
+                  <p><strong>Supplier:</strong> ${request.supplier}</p>
+                  <p><strong>Reason:</strong> ${request.reason}</p>
+                  <p><strong>Date Requested:</strong> ${request.date}</p>
+                  <div class="mt-4">
+                      <p><strong>Status:</strong></p>
+                      <div class="flex items-center">
+                          <input type="radio" id="paid" name="status" value="Paid" ${request.status === 'Paid' ? 'checked' : ''}>
+                          <label for="paid" class="ml-2">Paid</label>
+                      </div>
+                      <div class="flex items-center">
+                          <input type="radio" id="unpaid" name="status" value="Unpaid" ${request.status === 'Unpaid' ? 'checked' : ''}>
+                          <label for="unpaid" class="ml-2">Unpaid</label>
+                      </div>
+                  </div>
+                  <div class="mt-4">
+                      <p><strong>Purchase Request Confirmation:</strong></p>
+                      <div class="flex items-center">
+                          <input type="radio" id="pending" name="confirmation" value="Pending" ${request.confirmation === 'Pending' ? 'checked' : ''}>
+                          <label for="pending" class="ml-2">Pending</label>
+                      </div>
+                      <div class="flex items-center">
+                          <input type="radio" id="accepted" name="confirmation" value="Accepted" ${request.confirmation === 'Accepted' ? 'checked' : ''}>
+                          <label for="accepted" class="ml-2">Accepted</label>
+                      </div>
+                      <div class="flex items-center">
+                          <input type="radio" id="rejected" name="confirmation" value="Rejected" ${request.confirmation === 'Rejected' ? 'checked' : ''}>
+                          <label for="rejected" class="ml-2">Rejected</label>
+                      </div>
+                  </div>
+                  <table class="min-w-full bg-white mt-4">
+                      <thead>
+                          <tr>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Unit Number</th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Item</th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Quantity</th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Unit Price</th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Sub Total</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td class="py-2 px-4 border-b border-gray-200">${request.unitNumber}</td>
+                              <td class="py-2 px-4 border-b border-gray-200">${request.item}</td>
+                              <td class="py-2 px-4 border-b border-gray-200">${request.quantity}</td>
+                              <td class="py-2 px-4 border-b border-gray-200">${request.unitPrice}</td>
+                              <td class="py-2 px-4 border-b border-gray-200">${request.subTotal}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <div class="mt-4 text-right">
+                      <div class="inline-block text-left">
+                          <p><strong>Sales Tax:</strong></p>
+                          <p><strong>Ship & Handling:</strong></p>
+                          <p><strong>Total Amount:</strong></p>
+                      </div>
+                      <div class="inline-block text-left ml-4">
+                          <p><input type="number" id="sales-tax" value="${request.salesTax.replace('$', '')}" class="border border-gray-300 rounded-lg p-1 w-20"></p>
+                          <p><input type="number" id="ship-handling" value="${request.shipHandling.replace('$', '')}" class="border border-gray-300 rounded-lg p-1 w-20"></p>
+                          <p id="total-amount">${request.totalAmount}</p>
+                      </div>
+                  </div>
+              `;
+              modal.classList.remove('hidden');
+
+              const statusRadios = document.querySelectorAll('input[name="status"]');
+              statusRadios.forEach(radio => {
+                  radio.addEventListener('change', function () {
+                      const selectedValue = this.value;
+                      purchaseRequests[index].status = selectedValue;
+                  });
+              });
+
+              const confirmationRadios = document.querySelectorAll('input[name="confirmation"]');
+              confirmationRadios.forEach(radio => {
+                  radio.addEventListener('change', function () {
+                      const selectedValue = this.value;
+                      purchaseRequests[index].confirmation = selectedValue;
+                  });
+              });
+
+              const salesTaxInput = document.getElementById('sales-tax');
+              const shipHandlingInput = document.getElementById('ship-handling');
+              const totalAmountElement = document.getElementById('total-amount');
+
+              function updateTotalAmount() {
+                  const salesTax = parseFloat(salesTaxInput.value) || 0;
+                  const shipHandling = parseFloat(shipHandlingInput.value) || 0;
+                  const subTotal = parseFloat(request.subTotal.replace('$', '')) || 0;
+                  const totalAmount = subTotal + salesTax + shipHandling;
+                  totalAmountElement.textContent = `$${totalAmount.toFixed(2)}`;
+                  purchaseRequests[index].salesTax = `$${salesTax.toFixed(2)}`;
+                  purchaseRequests[index].shipHandling = `$${shipHandling.toFixed(2)}`;
+                  purchaseRequests[index].totalAmount = `$${totalAmount.toFixed(2)}`;
+              }
+
+              salesTaxInput.addEventListener('input', updateTotalAmount);
+              shipHandlingInput.addEventListener('input', updateTotalAmount);
+
+              document.getElementById('save-modal').addEventListener('click', function () {
+                  const statusCell = document.querySelectorAll('td')[index * 9 + 6];
+                  statusCell.innerHTML = `<i class="fas fa-circle"></i> ${purchaseRequests[index].status}`;
+                  statusCell.classList.remove('text-green-500', 'text-red-500');
+                  if (purchaseRequests[index].status === 'Paid') {
+                      statusCell.classList.add('text-green-500');
+                  } else if (purchaseRequests[index].status === 'Unpaid') {
+                      statusCell.classList.add('text-red-500');
+                  }
+
+                  const confirmationCell = document.querySelectorAll('.confirmation-cell')[index];
+                  confirmationCell.textContent = purchaseRequests[index].confirmation;
+                  confirmationCell.classList.remove('text-orange-500', 'text-green-500', 'text-red-500');
+                  if (purchaseRequests[index].confirmation === 'Pending') {
+                      confirmationCell.classList.add('text-orange-500');
+                  } else if (purchaseRequests[index].confirmation === 'Accepted') {
+                      confirmationCell.classList.add('text-green-500');
+                  } else if (purchaseRequests[index].confirmation === 'Rejected') {
+                      confirmationCell.classList.add('text-red-500');
+                  }
+
+                  closeModal();
+              });
+          }
+
+          function closeModal() {
+              modal.classList.add('hidden');
+          }
+
+          function deleteSelectedEntries() {
+              const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+              checkboxes.forEach(checkbox => {
+                  const row = checkbox.closest('tr');
+                  row.remove();
+              });
+          }
+
+          entriesSelect.addEventListener('change', function () {
+              renderTable(parseInt(this.value), 1);
+          });
+
+          selectAllCheckbox.addEventListener('change', toggleSelectAll);
+          searchInput.addEventListener('input', highlightMatches);
+          tbody.addEventListener('click', function (event) {
+              if (event.target.classList.contains('view-button')) {
+                  const index = event.target.getAttribute('data-index');
+                  showModal(index);
+              }
+          });
+          closeModalButton.addEventListener('click', closeModal);
+          deleteEntriesButton.addEventListener('click', deleteSelectedEntries);
+
+          paginationButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const page = parseInt(this.textContent);
+                    paginationButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.style.backgroundColor = '#e2e8f0';
+                        btn.style.color = '#4a5568';
+                    });
+                    this.classList.add('active');
+                    this.style.backgroundColor = '#007bff';
+                    this.style.color = '#fff';
+                    renderTable(25, page);
+                });
+            });
+
+            renderTable(25, 1);
+        });
+  </script>
+    <div class="page">
+
+      <div class="page-wrapper">
+
+        <!-- PAGE BODY -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+              <div class="flex justify-between items-center mb-6">
+                  <h1 class="text-xl font-semibold">Purchase Request</h1>
+                  <button onclick="window.location.href='Add_Purch.html';" class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-plus mr-2"></i> Create new request
+                  </button>
+              </div>
+               <div class="bg-white rounded-lg shadow-md p-4">
+                  <h2 class="text-lg font-semibold mb-4">Invoices</h2>
+                  <div class="flex justify-between items-center mb-4">
+                      <div class="flex items-center">
+                          <label for="entries" class="mr-2">Show</label>
+                          <select id="entries" class="border border-gray-300 rounded-lg p-2">
+                              <option>10</option>
+                              <option>15</option>
+                              <option>25</option>
+                          </select>
+                          <span class="ml-2">entries</span>
+                          <button id="delete-entries" class="bg-red-600 text-white px-4 py-2 rounded-lg ml-4">Delete Entries</button>
+                      </div>
+                      <div>
+                          <label for="search" class="mr-2">Search:</label>
+                          <input type="text" id="search" class="border border-gray-300 rounded-lg p-2">
+                      </div>
+                  </div>
+                   <table class="min-w-full bg-white">
+                      <thead>
+                          <tr>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">
+                                  <input type="checkbox" id="select-all">
+                              </th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">No.</th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Products</th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Supplier</th>
+                              <th class="py-2 px-6 border-b border-gray-200 text-left">Reason</th>
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Date Requested</th>
+                              <th class="py-2 px-5 border-b border-gray-200 text-left">Payment</th> <!-- Status ito sa varname-->
+                              <th class="py-2 px-4 border-b border-gray-200 text-left">Request Status</th> <!-- Purchreqstat ito sa varname-->
+                              <th class="py-2 px-4 border-b border-gray-200 text-left"></th>
+                          </tr>
+                      </thead>
+                      <tbody id="purchase-requests-body">
+                          <!-- Rows will be dynamically generated here -->
+                      </tbody>
+                  </table>
+                  </div>
+                  <div class="flex justify-center mt-4">
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button active">1</button>
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button">2</button>
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button">3</button>
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button">4</button>
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button">5</button>
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button">6</button>
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button">7</button>
+                    <button style="background-color: #e2e8f0; color: #4a5568; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer;" class="pagination-button">8</button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+     </div>
+      </div>
+      </div>
+      
+         <!-- Modal -->
+          <div id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+              <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
+                  <div id="modal-content">
+                      <!-- Modal content will be dynamically generated here -->
+                  </div>
+                  <div class="flex justify-end mt-4">
+                      <button id="save-modal" class="bg-green-600 text-white px-4 py-2 rounded-lg mr-2">Save</button>
+                      <button id="close-modal" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Close</button>
+                  </div>
+              </div>
+          </div>
+        </div>
+        </div>
+        </div>
+        </div>
+            
+      </div>
+    </div>
+
+{% endblock content %}

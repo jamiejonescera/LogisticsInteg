@@ -1,0 +1,66 @@
+<!-- ADD INVENTORY OF FDG-SIS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+<!-- INCLUDES SIDEBAR MENU -->
+{% include 'Sidebar.html' %}
+<script src="./dist/js/demo-theme.min.js?1692870487"></script>
+<div class="page">
+
+  <div class="page-wrapper">
+
+    <!-- INCLUDES HEADER -->
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Add Stock
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+        <!-- PAGE BODY -->
+            <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">New Stock</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <label class="form-label required">Stock Name</label>
+                      <div>
+                        <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter stock name">
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label required">Amount</label>
+                      <div>
+                        <input type="number" class="form-control" placeholder="Enter amount">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-end">
+                    <a href="Depart_Inv.html" class="btn btn-success">Add Supplier</a>
+                    <a href="reset_url" class="btn btn-danger">Reset</a>
+                    <a href="Admin_Home.html" class="btn btn-secondary">Cancel</a>
+                </div>  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+        
+
+{% endblock content %}

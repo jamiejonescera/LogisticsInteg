@@ -1,0 +1,467 @@
+<!-- DEPARTMENT INVENTORY OF FDG-IMS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+<!-- INCLUDES SIDEBAR MENU -->
+{% include 'Sidebar.html' %}
+<script src="./dist/js/demo-theme.min.js?1692870487"></script>
+<script>
+  function openModal(button) {
+      var row = button.parentElement.parentElement;
+      var cells = row.getElementsByTagName('td');
+
+      document.getElementById('sno').value = cells[0].innerText;
+      document.getElementById('supplierName').value = cells[1].innerText;
+      document.getElementById('item').value = cells[2].innerText;
+      document.getElementById('phonePrefix').value = cells[3].innerText.split(' ')[0];
+      document.getElementById('phoneNumber').value = cells[3].innerText.split(' ')[1];
+      document.getElementById('email').value = cells[4].innerText;
+      document.getElementById('status').value = cells[5].innerText;
+      document.getElementById('contactPerson').value = cells[6].innerText;
+      document.getElementById('address').value = cells[7].innerText;
+      document.getElementById('zipCode').value = cells[8].innerText;
+      document.getElementById('barangayNumber').value = cells[9].innerText;
+
+      // Update the log for the selected supplier
+      var log = document.getElementById('log');
+      log.textContent = `Supplier created on 10/27/2024, 1:49:16 AM:\nSNO: ${cells[0].innerText}\nSupplier Name: ${cells[1].innerText}\nItem: ${cells[2].innerText}\nPhone Prefix: ${cells[3].innerText.split(' ')[0]}\nPhone Number: ${cells[3].innerText.split(' ')[1]}\nEmail: ${cells[4].innerText}\nStatus: ${cells[5].innerText}\nContact Person: ${cells[6].innerText}\nAddress: ${cells[7].innerText}\nZip Code: ${cells[8].innerText}\nBarangay Number: ${cells[9].innerText}\n\nNo changes made on 10/27/2024, 1:57:31 AM\n\nChanges made on 10/27/2024, 2:03:38 AM:\nAddress: 11222\n\nChanges made on 10/27/2024, 2:03:51 AM:\nPhone Number: (63) 9090909090\n\nChanges made on 10/27/2024, 2:19:04 AM:\nPhone Number: (63) 0937-363-1533\n\nChanges Cancelled on 10/27/2024, 2:19:07 AM\n\nChanges Cancelled on 10/27/2024, 2:33:51 AM\n\nChanges Cancelled on 10/27/2024, 2:33:57 AM\n`;
+
+      document.getElementById('editModal').style.display = 'block';
+      formatPhoneNumber();
+  }
+
+  function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
+  }
+
+  function validatePhoneNumber() {
+      var phoneNumber = document.getElementById('phoneNumber').value.replace(/-/g, '');
+      var phoneError = document.getElementById('phoneError');
+      if (phoneNumber.length !== 11) {
+          phoneError.style.display = 'block';
+      } else {
+          phoneError.style.display = 'none';
+          document.getElementById('phoneNumber').value = phoneNumber.replace(/(\d{4})(\d{3})(\d{4})/, '$1-$2-$3');
+      }
+  }
+
+  function formatPhoneNumber() {
+      var phoneNumber = document.getElementById('phoneNumber').value.replace(/-/g, '');
+      if (phoneNumber.length === 11) {
+          document.getElementById('phoneNumber').value = phoneNumber.replace(/(\d{4})(\d{3})(\d{4})/, '$1-$2-$3');
+      }
+  }
+
+  function saveChanges() {
+      var sno = document.getElementById('sno').value;
+      var supplierName = document.getElementById('supplierName').value;
+      var item = document.getElementById('item').value;
+      var phonePrefix = document.getElementById('phonePrefix').value;
+      var phoneNumber = document.getElementById('phoneNumber').value;
+      var email = document.getElementById('email').value;
+      var status = document.getElementById('status').value;
+      var contactPerson = document.getElementById('contactPerson').value;
+      var address = document.getElementById('address').value;
+      var zipCode = document.getElementById('zipCode').value;
+      var barangayNumber = document.getElementById('barangayNumber').value;
+
+      // Update the supplier list table
+      var table = document.getElementById('supplierTable').getElementsByTagName('tbody')[0];
+      for (var i = 0; i < table.rows.length; i++) {
+          var row = table.rows[i];
+          if (row.cells[0].innerText === sno) {
+              row.cells[1].innerText = supplierName;
+              row.cells[2].innerText = item;
+              row.cells[3].innerText = phonePrefix + ' ' + phoneNumber;
+              row.cells[4].innerText = email;
+              row.cells[5].innerText = status;
+              row.cells[6].innerText = contactPerson;
+              row.cells[7].innerText = address;
+              row.cells[8].innerText = zipCode;
+              row.cells[9].innerText = barangayNumber;
+              break;
+          }
+      }
+
+      // Record the changes in the log
+      var log = document.getElementById('log');
+      var currentDateTime = new Date().toLocaleString();
+      var changes = `Changes made on ${currentDateTime} for SNO: ${sno}:\n`;
+      var changesMade = false;
+
+      if (phonePrefix + ' ' + phoneNumber !== row.cells[3].innerText) {
+          changes += `Phone Number: ${phonePrefix} ${phoneNumber}\n`;
+          changesMade = true;
+      }
+      if (email !== row.cells[4].innerText) {
+          changes += `Email address "${row.cells[4].innerText}" changed to "${email}"\n`;
+          changesMade = true;
+      }
+      if (status !== row.cells[5].innerText) {
+          changes += `Status: ${status}\n`;
+          changesMade = true;
+      }
+      if (contactPerson !== row.cells[6].innerText) {
+          changes += `Contact Person: ${contactPerson}\n`;
+          changesMade = true;
+      }
+      if (address !== row.cells[7].innerText) {
+          changes += `Address: ${address}\n`;
+          changesMade = true;
+      }
+      if (zipCode !== row.cells[8].innerText) {
+          changes += `Zip Code: ${zipCode}\n`;
+          changesMade = true;
+      }
+      if (barangayNumber !== row.cells[9].innerText) {
+          changes += `Barangay Number: ${barangayNumber}\n`;
+          changesMade = true;
+      }
+
+      if (changesMade) {
+          var logEntries = log.textContent.trim().split('\n\n');
+          if (logEntries.length >= 5) {
+              logEntries.shift();
+          }
+          logEntries.push(changes.trim());
+          log.textContent = logEntries.join('\n\n') + '\n\n';
+      } else {
+          log.textContent += `No changes made on ${currentDateTime} for SNO: ${sno}\n\n`;
+      }
+
+      closeModal();
+  }
+
+  function cancelChanges() {
+      closeModal();
+  }
+</script>
+
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+  }
+  .container {
+      width: calc(100% - 4in);
+      margin: 0 2in;
+      padding: 20px;
+  }
+  .table-container {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+  }
+  .table-container th, .table-container td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+  }
+  .table-container th {
+      background-color: #004d00;
+      color: white;
+  }
+  .table-container td {
+      background-color: #f9f9f9;
+  }
+  .table-container .edit-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+  }
+  .table-container .edit-button:hover {
+      background-color: #0056b3;
+  }
+  .header {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
+  .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group input[readonly], .form-group select[readonly] {
+            background-color: #e9ecef;
+            pointer-events: none;
+        }
+        .form-actions {
+            text-align: right;
+        }
+        .form-actions button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .form-actions .save-button {
+            background-color: yellow;
+            color: black;
+        }
+        .form-actions .cancel-button {
+            background-color: darkgray;
+            color: white;
+        }
+        .form-actions .close-button {
+            background-color: red;
+            color: white;
+        }
+        .log-container {
+            margin-top: 20px;
+        }
+        .log-container h3 {
+            margin-bottom: 10px;
+        }
+        .log-container pre {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-row .form-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .form-row .form-group:last-child {
+            margin-right: 0;
+        }
+        .form-group.short-input input {
+            width: auto;
+        }
+        .form-group.phone-number {
+            flex: 2;
+        }
+        .error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+
+<div class="page">
+
+  <div class="page-wrapper">
+
+    <!-- INCLUDES HEADER -->
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Supplier List
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE BODY -->
+    <div class="page-body">
+      <div class="container-xl">
+        <table class="table-container" id="supplierTable">
+          <thead>
+              <tr>
+                  <th>SNO</th>
+                  <th>SUPPLIER NAME</th>
+                  <th>ITEM</th>
+                  <th>PHONE NUMBER</th>
+                  <th>EMAIL</th>
+                  <th>STATUS</th>
+                  <th>CONTACT PERSON</th>
+                  <th>ADDRESS</th>
+                  <th>ZIP CODE</th>
+                  <th>BARANGAY NUMBER</th>
+                  <th>ACTIONS</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>2024001</td>
+                  <td>dzcu1a</td>
+                  <td>Chicken books</td>
+                  <td>(63) 0937-363-1538</td>
+                  <td>charmaine.copada@gmail.com</td>
+                  <td>Active</td>
+                  <td>Contact Personnel Name</td>
+                  <td>Address Building</td>
+                  <td>Zip Code</td>
+                  <td>Barangay Number</td>
+                  <td><button class="edit-button" onclick="openModal(this)">Edit</button></td>
+              </tr>
+              <tr>
+                  <td>2024002</td>
+                  <td>newSupplier</td>
+                  <td>New Item</td>
+                  <td>(63) 0912-345-6789</td>
+                  <td>new.supplier@example.com</td>
+                  <td>Inactive</td>
+                  <td>New Contact Person</td>
+                  <td>New Address</td>
+                  <td>New Zip Code</td>
+                  <td>New Barangay Number</td>
+                  <td><button class="edit-button" onclick="openModal(this)">Edit</button></td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+  <div id="editModal" class="modal">
+      <div class="modal-content">
+          <h2>Edit Supplier Details</h2>
+          <div class="form-row">
+              <div class="form-group">
+                  <label for="sno">SNO</label>
+                  <input type="text" id="sno" readonly>
+              </div>
+              <div class="form-group">
+                  <label for="supplierName">Supplier Name</label>
+                  <input type="text" id="supplierName" readonly>
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group">
+                  <label for="item">Item</label>
+                  <select id="item" readonly>
+                      <option value="Books">Books</option>
+                      <option value="Children books">Children books</option>
+                      <option value="ID & ID laces">ID & ID laces</option>
+                      <option value="Uniforms">Uniforms</option>
+                      <option value="Medals">Medals</option>
+                      <option value="Certifications">Certifications</option>
+                      <option value="Medical Equipment">Medical Equipment</option>
+                      <option value="Tables">Tables</option>
+                      <option value="Chairs">Chairs</option>
+                      <option value="Appliances">Appliances</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="status">Status</label>
+                  <select id="status">
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group short-input">
+                  <label for="phonePrefix">Phone Prefix</label>
+                  <select id="phonePrefix">
+                      <option value="(63)">Philippines (63)</option>
+                      <option value="(02)">Metro Manila (02)</option>
+                      <option value="(32)">Cebu (32)</option>
+                      <option value="(82)">Davao (82)</option>
+                      <!-- Add more options as needed -->
+                  </select>
+              </div>
+              <div class="form-group phone-number">
+                  <label for="phoneNumber">Phone Number</label>
+                  <input type="text" id="phoneNumber" oninput="validatePhoneNumber()">
+                  <span class="error-message" id="phoneError">Please enter correct number of digits.</span>
+              </div>
+              <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" id="email">
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group">
+                  <label for="contactPerson">Contact Person</label>
+                  <input type="text" id="contactPerson">
+              </div>
+              <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" id="address">
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group">
+                  <label for="zipCode">Zip Code</label>
+                  <input type="text" id="zipCode">
+              </div>
+              <div class="form-group">
+                  <label for="barangayNumber">Barangay Number</label>
+                  <input type="text" id="barangayNumber">
+              </div>
+          </div>
+          <div class="form-actions">
+              <button class="save-button" onclick="saveChanges()">Save</button>
+              <button class="cancel-button" onclick="cancelChanges()">Cancel</button>
+              <button class="close-button" onclick="closeModal()">Close</button>
+          </div>
+          <div class="log-container">
+              <h3>Previous Log</h3>
+              <pre id="log">Supplier created on 10/27/2024, 1:49:16 AM:
+SNO: 2024002
+Supplier Name: newSupplier
+Item: New Item
+Phone Prefix: (63)
+Phone Number: 0912-345-6789
+Email: new.supplier@example.com
+Status: Inactive
+Contact Person: New Contact Person
+Address: New Address
+Zip Code: New Zip Code
+Barangay Number: New Barangay Number
+
+No changes made on 10/27/2024, 1:57:31 AM
+
+Changes made on 10/27/2024, 2:03:38 AM:
+Address: 11222
+
+Changes made on 10/27/2024, 2:03:51 AM:
+Phone Number: (63) 9090909090
+
+Changes made on 10/27/2024, 2:19:04 AM:
+Phone Number: (63) 0937-363-1533
+
+Changes Cancelled on 10/27/2024, 2:19:07 AM
+
+Changes Cancelled on 10/27/2024, 2:33:51 AM
+
+Changes Cancelled on 10/27/2024, 2:33:57 AM
+
+</pre>
+          </div>
+      </div>
+  </div>
+
+
+{% endblock content %}

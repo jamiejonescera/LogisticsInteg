@@ -1,0 +1,216 @@
+<!-- DEPARTMENT INVENTORY OF FDG-IMS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+<!-- INCLUDES SIDEBAR MENU -->
+{% include 'Sidebar.html' %}
+<script src="./dist/js/demo-theme.min.js?1692870487"></script>
+<div class="page">
+
+  <div class="page-wrapper">
+
+    <!-- INCLUDES HEADER -->
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Department Inventory
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    
+      .input-icon {
+        display: flex;
+        align-items: center;
+      }
+    
+      .input-icon-addon {
+        margin-left: -30px; /* Adjust based on icon position */
+      }
+    
+      .btn-group {
+        display: flex;
+      }
+    
+      .btn {
+        min-width: 100px; /* Adjust to ensure buttons have a consistent width */
+        margin-left: 10px;
+      }
+    
+      @media (max-width: 768px) {
+        .card-header {
+          flex-direction: column;
+        }
+    
+        .btn-group {
+          width: 100%;
+          margin-top: 10px;
+        }
+    
+        .btn {
+          width: 100%; /* Ensure the buttons fit in mobile views */
+        }
+      }
+    </style>
+
+    <!-- PAGE BODY -->
+    <div class="page-body">
+      <div class="container-xl">
+        <div class="row row-cards">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="input-icon me-3 flex-grow-1">
+                  <input type="text" value="" class="form-control" placeholder="Search…">
+                  <span class="input-icon-addon">
+                    <!-- Search icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#0000FF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                      <path d="M21 21l-6 -6" />
+                    </svg>
+                  </span>
+                </div>
+              
+                <div class="btn-group" role="group">
+                  <input type="radio" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-1" autocomplete="off" checked>
+                  <label for="btn-radio-basic-1" type="button" class="btn mx-2">All Items</label>
+                  
+                  <input type="radio" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-2" autocomplete="off">
+                  <a href="./Add_Inv.html" id="btn-radio-basic-2-link" class="btn btn-primary mx-2">Add New Item</a>
+                </div>
+              </div>
+                  
+                  <div class="d-flex align-items-center justify-content-center mb-3">
+                    <div class="w-100 mx-auto"> <!-- Set width to 75% to make it longer -->
+                      <div class="form-selectgroup d-flex justify-content-center"> <!-- Center the buttons -->
+                        <label class="form-selectgroup-item me-3" style="min-width: 150px;"> <!-- Adjust min-width -->
+                          <input type="checkbox" name="name" value="Filter" class="form-selectgroup-input" checked>
+                          <span class="form-selectgroup-label">Filter</span>
+                        </label>
+                        <label class="form-selectgroup-item me-3" style="min-width: 150px;">
+                          <input type="checkbox" name="name" value="Classroom" class="form-selectgroup-input">
+                          <span class="form-selectgroup-label">Classroom</span>
+                        </label>
+                        <label class="form-selectgroup-item me-3" style="min-width: 150px;">
+                          <input type="checkbox" name="name" value="Office" class="form-selectgroup-input">
+                          <span class="form-selectgroup-label">Office</span>
+                        </label>
+                        <label class="form-selectgroup-item me-3" style="min-width: 150px;">
+                          <input type="checkbox" name="name" value="Library" class="form-selectgroup-input">
+                          <span class="form-selectgroup-label">Library</span>
+                        </label>
+                        <label class="form-selectgroup-item" style="min-width: 150px;">
+                          <input type="checkbox" name="name" value="Clinic" class="form-selectgroup-input">
+                          <span class="form-selectgroup-label">Clinic</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+
+                <!-- Table Card -->
+                <div class="card">
+                  <div class="table-responsive">
+                    <table class="table card-table table-vcenter text-nowrap datatable">
+                      <thead>
+                        <tr>
+                          <th>SNo</th>
+                          <th>Item Name</th>
+                          <th>Description</th>
+                          <th>Quantity</th>
+                          <th>Available</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td class>Chair</td>
+                          <td class>Lorem Ipsum</td>
+                          <td class>70</td>
+                          <td class>60</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td class>Blackboard</td>
+                          <td class>Lorem Ipsum</td>
+                          <td class>5</td>
+                          <td class>5</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td class>Whiteboard</td>
+                          <td class>Lorem Ipsum</td>
+                          <td class>5</td>
+                          <td class>5</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td class>Bookshelf</td>
+                          <td class>Lorem Ipsum</td>
+                          <td class>5</td>
+                          <td class>5</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td class>Television</td>
+                          <td class>Lorem Ipsum</td>
+                          <td class>5</td>
+                          <td class>5</td>
+                        </tr>
+                        <tr>
+                          <td>6</td>
+                          <td class>Tables</td>
+                          <td class>Lorem Ipsum</td>
+                          <td class>40</td>
+                          <td class>35</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer d-flex align-items-center">
+                    <p class="m-0 text-secondary">Showing <span>1</span> to <span>6</span> of <span>16</span> entries</p>
+                    <ul class="pagination m-0 ms-auto">
+                      <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                          <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#0054A6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
+                          prev
+                        </a>
+                      </li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">4</a></li>
+                      <li class="page-item"><a class="page-link" href="#">5</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">
+                          next <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#0054A6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+{% endblock content %}

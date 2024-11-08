@@ -1,0 +1,415 @@
+<!-- EVALUATION REQUEST OF FDG-IMS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+<!-- INCLUDES SIDEBAR MENU -->
+{% include 'Sidebar.html' %}
+<script src="./dist/js/demo-theme.min.js?1692870487"></script>
+<div class="page">
+
+  <div class="page-wrapper">
+
+    <!-- INCLUDES HEADER -->
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Evaluation Request
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- PAGE BODY -->
+         <div class="page-body">
+          <div class="container-xl">
+              <div class="row row-cards">
+                  <div class="space-y">
+                    <div class="card">
+                      <div class="row g-0">
+                        <div class="col-auto">
+                          <div class="card-body">
+                            <div class="avatar avatar-md" style="background-image: url(./static/jobs/job-4.png)"></div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card-body ps-0">
+                            <div class="row">
+                              <div class="col">
+                                <h3 class="mb-0"><a href="#">Front-End Developer</a></h3>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md">
+                                <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+                                  <div class="list-inline-item">
+                                    Simple Focus</div>
+                                  <div class="list-inline-item">
+                                    Full-time</div>
+                                  <div class="list-inline-item">
+                                    Remote / USA</div>
+                                </div>
+                                <div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
+                                  <div class="list-item">
+                                    Simple Focus</div>
+                                  <div class="list-item">
+                                    Full-time</div>
+                                  <div class="list-item">
+                                    Remote / USA</div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                              <a href="#" class="btn" data-bs-toggle="modal" data-bs-target="#modal-report">
+                              Details 
+                              </a>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="row g-0">
+                        <div class="col-auto">
+                          <div class="card-body">
+                            <div class="avatar avatar-md" style="background-image: url(./static/jobs/job-5.png)"></div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card-body ps-0">
+                            <div class="row">
+                              <div class="col">
+                                <h3 class="mb-0"><a href="#">Senior Front-End Engineer</a></h3>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md">
+                                <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+                                  <div class="list-inline-item">
+                                    Infinia ML</div>
+                                  <div class="list-inline-item">
+                                    Full-time</div>
+                                  <div class="list-inline-item">
+                                    Durham, NC</div>
+                                </div>
+                                <div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
+                                  <div class="list-item">
+                                    Infinia ML</div>
+                                  <div class="list-item">
+                                    Full-time</div>
+                                  <div class="list-item">
+                                    Durham, NC</div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                              <a href="#" class="btn">
+                              Details 
+                              </a>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="row g-0">
+                        <div class="col-auto">
+                          <div class="card-body">
+                            <div class="avatar avatar-md" style="background-image: url(./static/jobs/job-6.png)"></div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card-body ps-0">
+                            <div class="row">
+                              <div class="col">
+                                <h3 class="mb-0"><a href="#">Senior Web Developer, Open Source</a></h3>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md">
+                                <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+                                  <div class="list-inline-item">
+                                    Crowd Favorite</div>
+                                  <div class="list-inline-item">
+                                    Full-time</div>
+                                  <div class="list-inline-item">
+                                    Remote / USA</div>
+                                </div>
+                                <div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
+                                  <div class="list-item">
+                                    Crowd Favorite</div>
+                                  <div class="list-item">
+                                    Full-time</div>
+                                  <div class="list-item">
+                                    Remote / USA</div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                              <a href="#" class="btn">
+                              Details 
+                              </a>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="row g-0">
+                        <div class="col-auto">
+                          <div class="card-body">
+                            <div class="avatar avatar-md" style="background-image: url(./static/jobs/job-7.png)"></div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card-body ps-0">
+                            <div class="row">
+                              <div class="col">
+                                <h3 class="mb-0"><a href="#">Frontend Engineer</a></h3>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md">
+                                <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+                                  <div class="list-inline-item">
+                                    Spear AI</div>
+                                  <div class="list-inline-item">
+                                    Full-time</div>
+                                  <div class="list-inline-item">
+                                    Washington D.C.</div>
+                                </div>
+                                <div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
+                                  <div class="list-item">
+                                    Spear AI</div>
+                                  <div class="list-item">
+                                    Full-time</div>
+                                  <div class="list-item">
+                                    Washington D.C.</div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <a href="#" class="btn">
+                                  Details 
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="row g-0">
+                        <div class="col-auto">
+                          <div class="card-body">
+                            <div class="avatar avatar-md" style="background-image: url(./static/jobs/job-8.png)"></div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card-body ps-0">
+                            <div class="row">
+                              <div class="col">
+                                <h3 class="mb-0"><a href="#">Web Developer</a></h3>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md">
+                                <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+                                  <div class="list-inline-item">
+                                    Third Time Games</div>
+                                  <div class="list-inline-item">
+                                    Full-time</div>
+                                  <div class="list-inline-item">
+                                    Remote / North America</div>
+                                </div>
+                                <div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
+                                  <div class="list-item">
+                                    Third Time Games</div>
+                                  <div class="list-item">
+                                    Full-time</div>
+                                  <div class="list-item">
+                                    Remote / North America</div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <a href="#" class="btn">
+                                  Details 
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="row g-0">
+                        <div class="col-auto">
+                          <div class="card-body">
+                            <div class="avatar avatar-md" style="background-image: url(./static/jobs/job-9.jpg)"></div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card-body ps-0">
+                            <div class="row">
+                              <div class="col">
+                                <h3 class="mb-0"><a href="#">Laravel Developer</a></h3>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md">
+                                <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+                                  <div class="list-inline-item">
+                                    Mindsize</div>
+                                  <div class="list-inline-item">
+                                    Full-time</div>
+                                  <div class="list-inline-item">
+                                    Remote / USA</div>
+                                </div>
+                                <div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
+                                  <div class="list-item">
+                                    Mindsize</div>
+                                  <div class="list-item">
+                                    Full-time</div>
+                                  <div class="list-item">
+                                    Remote / USA</div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <a href="#" class="btn">
+                                  Details 
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+
+        <!-- MODAL FOR ORDER DETAILS -->
+        <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">New report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="page-body">
+              <div class="container-xl">
+                <div class="card card-lg">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="h3">Company</p>
+                        <address>
+                          Street Address<br>
+                          State, City<br>
+                          Region, Postal Code<br>
+                          ltd@example.com
+                        </address>
+                      </div>
+                      <div class="col-6 text-end">
+                        <p class="h3">Client</p>
+                        <address>
+                          Street Address<br>
+                          State, City<br>
+                          Region, Postal Code<br>
+                          ctr@example.com
+                        </address>
+                      </div>
+                      <div class="col-12 my-5">
+                        <h1>Invoice INV/001/15</h1>
+                      </div>
+                    </div>
+                    <table class="table table-transparent table-responsive">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 1%"></th>
+                          <th>Product</th>
+                          <th class="text-center" style="width: 1%">Qnt</th>
+                          <th class="text-end" style="width: 1%">Unit</th>
+                          <th class="text-end" style="width: 1%">Amount</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <td class="text-center">1</td>
+                        <td>
+                          <p class="strong mb-1">Logo Creation</p>
+                          <div class="text-secondary">Logo and business cards design</div>
+                        </td>
+                        <td class="text-center">
+                          1
+                        </td>
+                        <td class="text-end">$1.800,00</td>
+                        <td class="text-end">$1.800,00</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">2</td>
+                        <td>
+                          <p class="strong mb-1">Online Store Design &amp; Development</p>
+                          <div class="text-secondary">Design/Development for all popular modern browsers</div>
+                        </td>
+                        <td class="text-center">
+                          1
+                        </td>
+                        <td class="text-end">$20.000,00</td>
+                        <td class="text-end">$20.000,00</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">3</td>
+                        <td>
+                          <p class="strong mb-1">App Design</p>
+                          <div class="text-secondary">Promotional mobile application</div>
+                        </td>
+                        <td class="text-center">
+                          1
+                        </td>
+                        <td class="text-end">$3.200,00</td>
+                        <td class="text-end">$3.200,00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="strong text-end">Subtotal</td>
+                        <td class="text-end">$25.000,00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="strong text-end">Vat Rate</td>
+                        <td class="text-end">20%</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="strong text-end">Vat Due</td>
+                        <td class="text-end">$5.000,00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="font-weight-bold text-uppercase text-end">Total Due</td>
+                        <td class="font-weight-bold text-end">$30.000,00</td>
+                      </tr>
+                    </table>
+                    <p class="text-secondary text-center mt-5">Thank you very much for doing business with us. We look forward to working with
+                      you again!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                    <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                      Cancel
+                    </a>
+                    <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                      Proceed to inventory
+                    </a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+{% endblock content %}

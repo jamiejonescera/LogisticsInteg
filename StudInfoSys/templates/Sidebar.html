@@ -1,0 +1,133 @@
+<!-- SIDEBAR & HEADING -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<script>
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("hidden");
+    }
+
+    function highlightMatches() {
+        const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll("td");
+            cells.forEach(cell => {
+                cell.classList.remove("bg-yellow-200");
+                if (searchTerm && cell.innerText.toLowerCase().includes(searchTerm)) {
+                    cell.classList.add("bg-yellow-200");
+                }
+            });
+        });
+    }
+</script>
+        <!-- SIDEBAR LOGO -->
+        <div class="flex">
+            <!-- Sidebar -->
+            <div id="sidebar" class="w-64 bg-green-700 text-white min-h-screen">
+                <div class="flex items-center justify-center py-4">
+                    <img alt="Company Logo" class="rounded-full bg-transparent" height="50" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPC_bFkrczUMAvuo_hm0OCJ0JiQ2Wd6YBivw&s" width="80"/>
+                </div>
+
+      <!-- SIDEBAR MENU -->
+      <div class="text-center text-xl font-bold mb-4">Flor De Grace</div>
+      <nav class="px-4">
+          <ul>
+              <li class="mb-2">
+                  <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Admin_Home.html">
+                      <i class="fas fa-home mr-2"></i> Home
+                  </a>
+                  <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Purchase_Req.html">
+                      <i class="fas fa-file mr-2"></i> Purchase Request
+                  </a>
+                  <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Eval_Req.html">
+                      <i class="fas fa-file mr-2"></i> Evaluation Request
+                  </a>
+                  <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Equip_Maintenance.html">
+                    <i class="fas fa-file mr-2"></i> Equipment Maintenance
+                </a>
+              </li>
+              <li class="mb-2">
+                  <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="#">
+                      <i class="fas fa-boxes mr-2"></i> Inventory
+                  </a>
+                  <ul class="ml-6 mt-2">
+                      <li class="mb-2">
+                          <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Add_Inv.html">
+                              <i class="fas fa-plus mr-2"></i> Add Items
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Depreciated_Inv.html">
+                              <i class="fas fa-trash-alt mr-2"></i> Depreciated Items
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Depart_Inv.html">
+                              <i class="fas fa-warehouse mr-2"></i> Department Inventory
+                          </a>
+                      </li>
+                  </ul>
+              </li>
+              <li class="mb-2">
+                  <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="#">
+                      <i class="fas fa-building mr-2"></i> Property
+                  </a>
+                  <ul class="ml-6 mt-2">
+                      <li class="mb-2">
+                          <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="#">
+                              <i class="fas fa-plus mr-2"></i> Add Asset
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="#">
+                              <i class="fas fa-tags mr-2"></i> Property Categorization
+                          </a>
+                      </li>
+                  </ul>
+              </li>
+              <li class="mb-2">
+                  <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="#">
+                      <i class="fas fa-truck mr-2"></i> Suppliers
+                  </a>
+                  <ul class="ml-6 mt-2">
+                      <li class="mb-2">
+                          <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Add_Supplier.html">
+                              <i class="fas fa-plus mr-2"></i> Add Supplier
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a class="flex items-center py-2 px-4 hover:bg-green-600 rounded" href="Supplier_List.html">
+                              <i class="fas fa-list mr-2"></i> Supplier List
+                          </a>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+      </nav>
+  </div>
+  <!-- Main Content -->
+ <div class="flex-1">
+    <!-- Header -->
+    <div class="bg-green-600 text-white p-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <i class="fas fa-bars mr-4 text-2xl cursor-pointer" onclick="toggleSidebar()"></i>
+            <div class="text-xl font-bold">Inventory Management System</div>
+        </div>
+        <div class="relative w-1/2">
+            <input id="searchInput" type="text" placeholder="Hello Greg, what's on your mind today?" class="w-full p-2 rounded-l bg-white text-black" oninput="highlightMatches()"/>
+            <button class="absolute right-0 top-0 h-full bg-white text-green-700 p-2 rounded-r-md">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="flex items-center">
+            <i class="fas fa-bell text-2xl mr-4"></i>
+            <div class="text-right mr-2">
+                <span>Greg Enail</span>
+                <div class="text-sm">Administrator</div>
+            </div>
+            <i class="fas fa-user text-2xl"></i>
+        </div>
+    </div>

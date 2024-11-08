@@ -1,0 +1,535 @@
+<!-- ADD SUPPLIER OF FDG-IMS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+<!-- INCLUDES SIDEBAR MENU -->
+{% include 'Sidebar.html' %}
+<script src="./dist/js/demo-theme.min.js?1692870487"></script>
+</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<script>
+  let editingRow = null;
+  let supplierCount = 2; // Start from 2024002
+
+  function validateForm() {
+   const supplierName = document.getElementById('supplierName');
+   const item = document.getElementById('item');
+   const phonePrefix = document.getElementById('phonePrefix');
+   const phoneNumber = document.getElementById('phoneNumber');
+   const emailAddress = document.getElementById('emailAddress');
+   const status = document.getElementById('status');
+   const contactPerson = document.getElementById('contactPerson');
+   const address = document.getElementById('address');
+   const zipCode = document.getElementById('zipCode');
+   const barangayNumber = document.getElementById('barangayNumber');
+   const errorMessage = document.getElementById('errorMessage');
+
+   let isValid = true;
+
+   if (!supplierName.value) {
+     supplierName.classList.add('border-red-500', 'bg-red-100');
+     isValid = false;
+   } else {
+     supplierName.classList.remove('border-red-500', 'bg-red-100');
+   }
+
+   if (item.value === 'Select an Item') {
+     item.classList.add('border-red-500', 'bg-red-100');
+     isValid = false;
+   } else {
+     item.classList.remove('border-red-500', 'bg-red-100');
+   }
+
+   if (phonePrefix.value === 'Select Phone Prefix') {
+     phonePrefix.classList.add('border-red-500', 'bg-red-100');
+     isValid = false;
+   } else {
+     phonePrefix.classList.remove('border-red-500', 'bg-red-100');
+   }
+
+   if (!phoneNumber.value) {
+     phoneNumber.classList.add('border-red-500', 'bg-red-100');
+     isValid = false;
+   } else {
+     phoneNumber.classList.remove('border-red-500', 'bg-red-100');
+   }
+
+   if (!emailAddress.value) {
+     emailAddress.classList.add('border-red-500', 'bg-red-100');
+     isValid = false;
+   } else {
+     emailAddress.classList.remove('border-red-500', 'bg-red-100');
+   }
+
+   if (status.value === 'Select status') {
+     status.classList.add('border-red-500', 'bg-red-100');
+     isValid = false;
+   } else {
+     status.classList.remove('border-red-500', 'bg-red-100');
+   }
+
+   if (!contactPerson.value) {
+     contactPerson.classList.add('border-red-500', 'bg-red-100');
+     isValid = false;
+   } else {
+     contactPerson.classList.remove('border-red-500', 'bg-red-100');
+   }
+
+   if (!isValid) {
+     errorMessage.classList.remove('hidden');
+   } else {
+     errorMessage.classList.add('hidden');
+     if (editingRow) {
+       confirmUpdate();
+     } else {
+       addSupplier();
+     }
+   }
+  }
+
+  function formatPhoneNumber() {
+   const phoneNumber = document.getElementById('phoneNumber');
+   const phoneError = document.getElementById('phoneError');
+   let value = phoneNumber.value.replace(/\D/g, '');
+   if (value.length > 11) {
+     value = value.slice(0, 11);
+   }
+   const formattedValue = value.replace(/(\d{4})(\d{3})(\d{4})/, '$1-$2-$3');
+   phoneNumber.value = formattedValue;
+
+   if (value.length < 11 && value.length > 0) {
+     phoneError.classList.remove('hidden');
+   } else {
+     phoneError.classList.add('hidden');
+   }
+  }
+
+  function addSupplier() {
+   const supplierName = document.getElementById('supplierName').value;
+   const item = document.getElementById('item').value;
+   const phonePrefix = document.getElementById('phonePrefix').value.split(' ')[0];
+   const phoneNumber = document.getElementById('phoneNumber').value;
+   const emailAddress = document.getElementById('emailAddress').value;
+   const status = document.getElementById('status').value;
+   const contactPerson = document.getElementById('contactPerson').value;
+   const address = document.getElementById('address').value || 'N/A';
+   const zipCode = document.getElementById('zipCode').value || 'N/A';
+   const barangayNumber = document.getElementById('barangayNumber').value || 'N/A';
+
+   const table = document.getElementById('supplierTable').getElementsByTagName('tbody')[0];
+   const newRow = table.insertRow();
+
+   const currentYear = new Date().getFullYear();
+   const sno = `${currentYear}${String(supplierCount).padStart(3, '0')}`;
+   supplierCount += 1;
+
+   const dateCreated = new Date().toLocaleString();
+
+   newRow.innerHTML = `
+     <td class="py-3 px-2 text-left">${sno}</td>
+     <td class="py-3 px-6 text-left">${supplierName}</td>
+     <td class="py-3 px-6 text-left">${item}</td>
+     <td class="py-3 px-6 text-left">(${phonePrefix}) ${phoneNumber}</td>
+     <td class="py-3 px-6 text-left">${emailAddress}</td>
+     <td class="py-3 px-2 text-left">${status}</td>
+     <td class="py-3 px-6 text-left">${contactPerson}</td>
+     <td class="py-3 px-6 text-left">${address}</td>
+     <td class="py-3 px-2 text-left">${zipCode}</td>
+     <td class="py-3 px-2 text-left">${barangayNumber}</td>
+     <td class="py-3 px-6 text-center">
+       <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2 w-full" onclick="editSupplier(this)">Edit</button>
+       <button class="bg-green-700 text-white px-4 py-2 rounded w-full" onclick="showPreviousDetails('${supplierName}', '${item}', '(${phonePrefix}) ${phoneNumber}', '${emailAddress}', '${status}', '${contactPerson}', '${address}', '${zipCode}', '${barangayNumber}', '${dateCreated}')" type="button">Previous Supplier Details</button>
+     </td>
+   `;
+
+   resetForm();
+  }
+
+  function editSupplier(button) {
+   const row = button.parentNode.parentNode;
+   editingRow = row;
+
+   document.getElementById('supplierName').value = row.cells[1].innerText;
+   document.getElementById('item').value = row.cells[2].innerText;
+   const phoneDetails = row.cells[3].innerText.split(' ');
+   document.getElementById('phonePrefix').value = phoneDetails[0].replace(/[()]/g, '');
+   document.getElementById('phoneNumber').value = phoneDetails[1];
+   document.getElementById('emailAddress').value = row.cells[4].innerText;
+   document.getElementById('status').value = row.cells[5].innerText;
+   document.getElementById('contactPerson').value = row.cells[6].innerText;
+   document.getElementById('address').value = row.cells[7].innerText === 'N/A' ? '' : row.cells[7].innerText;
+   document.getElementById('zipCode').value = row.cells[8].innerText === 'N/A' ? '' : row.cells[8].innerText;
+   document.getElementById('barangayNumber').value = row.cells[9].innerText === 'N/A' ? '' : row.cells[9].innerText;
+
+   document.getElementById('supplierName').disabled = true;
+   document.getElementById('item').disabled = true;
+
+   document.getElementById('addSupplierButton').classList.add('hidden');
+   document.getElementById('updateSupplierButton').classList.remove('hidden');
+  }
+
+  function confirmUpdate() {
+   const confirmation = confirm("Do you want to update the supplier details?");
+   if (confirmation) {
+     updateSupplier();
+   }
+  }
+
+  function updateSupplier() {
+   const phonePrefix = document.getElementById('phonePrefix').value.split(' ')[0];
+   const phoneNumber = document.getElementById('phoneNumber').value;
+   const emailAddress = document.getElementById('emailAddress').value;
+   const status = document.getElementById('status').value;
+   const contactPerson = document.getElementById('contactPerson').value;
+   const address = document.getElementById('address').value || 'N/A';
+   const zipCode = document.getElementById('zipCode').value || 'N/A';
+   const barangayNumber = document.getElementById('barangayNumber').value || 'N/A';
+
+   editingRow.cells[3].innerText = `(${phonePrefix}) ${phoneNumber}`;
+   editingRow.cells[4].innerText = emailAddress;
+   editingRow.cells[5].innerText = status;
+   editingRow.cells[6].innerText = contactPerson;
+   editingRow.cells[7].innerText = address;
+   editingRow.cells[8].innerText = zipCode;
+   editingRow.cells[9].innerText = barangayNumber;
+
+   editingRow = null;
+
+   document.getElementById('supplierName').disabled = false;
+   document.getElementById('item').disabled = false;
+
+   resetForm();
+
+   document.getElementById('addSupplierButton').classList.remove('hidden');
+   document.getElementById('updateSupplierButton').classList.add('hidden');
+  }
+
+  function resetForm() {
+   document.getElementById('supplierName').value = '';
+   document.getElementById('item').value = 'Select an Item';
+   document.getElementById('phonePrefix').value = 'Select Phone Prefix';
+   document.getElementById('phoneNumber').value = '';
+   document.getElementById('emailAddress').value = '';
+   document.getElementById('status').value = 'Select status';
+   document.getElementById('contactPerson').value = '';
+   document.getElementById('address').value = '';
+   document.getElementById('zipCode').value = '';
+   document.getElementById('barangayNumber').value = '';
+  }
+
+  function showPreviousDetails(supplierName, item, phoneNumber, email, status, contactPerson, address, zipCode, barangayNumber, dateCreated) {
+   const modal = document.getElementById('modal');
+
+   document.getElementById('modalContent').innerHTML = `
+     <h2 class="text-xl font-bold mb-4">Previous Supplier Details</h2>
+     <p>Supplier Name: ${supplierName}</p>
+     <p>Item: ${item}</p>
+     <p>Phone Number: ${phoneNumber}</p>
+     <p>Email: ${email}</p>
+     <p>Status: ${status}</p>
+     <p>Contact Person: ${contactPerson}</p>
+     <p>Address: ${address}</p>
+     <p>ZIP Code: ${zipCode}</p>
+     <p>Barangay Number: ${barangayNumber}</p>
+     <p class="mt-4 text-gray-600">Date Created: ${dateCreated}</p>
+     <div class="mt-6 flex justify-end">
+       <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="closeModal()" type="button">Close</button>
+     </div>
+   `;
+
+   modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+   const modal = document.getElementById('modal');
+   modal.classList.add('hidden');
+  }
+
+  function cancelEdit() {
+   editingRow = null;
+
+   document.getElementById('supplierName').disabled = false;
+   document.getElementById('item').disabled = false;
+
+   resetForm();
+
+   document.getElementById('addSupplierButton').classList.remove('hidden');
+   document.getElementById('updateSupplierButton').classList.add('hidden');
+  }
+ </script>
+<div class="page">
+
+  <div class="page-wrapper">
+
+    <!-- INCLUDES HEADER -->
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="grid grid-cols-3 gap-6">
+          <div>
+           <img alt="Stack of books in front of a bookshelf" class="rounded-lg" height="400" src="https://storage.googleapis.com/a1aa/image/GdK3zFzCKRYcGFJDDrGsHffqLZ2cbNey1cqik6dH39B8affcC.jpg" width="400"/>
+          </div>
+          <div class="col-span-2">
+           <div class="bg-yellow-500 text-white p-4 rounded-t-lg">
+            <h2 class="text-xl font-bold">
+             Supplier Details
+            </h2>
+           </div>
+           <div class="bg-white p-4 rounded-b-lg border border-gray-200">
+            <form class="grid grid-cols-2 gap-4">
+             <div>
+              <label class="block text-gray-700">
+               Supplier Name
+              </label>
+              <input class="w-full p-2 border border-gray-300 rounded" id="supplierName" type="text"/>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Item
+              </label>
+              <select class="w-full p-2 border border-gray-300 rounded" id="item">
+               <option>
+                Select an Item
+               </option>
+               <option>
+                Books
+               </option>
+               <option>
+                Children books
+               </option>
+               <option>
+                ID & ID laces
+               </option>
+               <option>
+                Tables
+               </option>
+               <option>
+                Chairs
+               </option>
+               <option>
+                Medical Equipment
+               </option>
+               <option>
+                Medals
+               </option>
+               <option>
+                Certifications
+               </option>
+               <option>
+                Appliances
+               </option>
+              </select>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Phone Prefix
+              </label>
+              <select class="w-full p-2 border border-gray-300 rounded" id="phonePrefix">
+               <option>
+                Select Phone Prefix
+               </option>
+               <option>
+                (63) Philippines
+               </option>
+               <option>
+                (2) Metro Manila
+               </option>
+               <option>
+                (32) Cebu
+               </option>
+               <option>
+                (82) Davao
+               </option>
+               <option>
+                (74) Baguio
+               </option>
+               <option>
+                (45) Pampanga
+               </option>
+               <option>
+                (88) Cagayan de Oro
+               </option>
+               <option>
+                (33) Iloilo
+               </option>
+               <option>
+                (34) Bacolod
+               </option>
+              </select>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Phone Number
+              </label>
+              <input class="w-full p-2 border border-gray-300 rounded" id="phoneNumber" maxlength="13" oninput="formatPhoneNumber()" type="text"/>
+              <div class="text-red-500 hidden" id="phoneError">
+               Please enter correct number of digits.
+              </div>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Email Address
+              </label>
+              <input class="w-full p-2 border border-gray-300 rounded" id="emailAddress" type="email"/>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Address (OPTIONAL)
+              </label>
+              <input class="w-full p-2 border border-gray-300 rounded" id="address" type="text"/>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Status
+              </label>
+              <select class="w-full p-2 border border-gray-300 rounded" id="status">
+               <option>
+                Select status
+               </option>
+               <option>
+                Active
+               </option>
+               <option>
+                Inactive
+               </option>
+              </select>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               ZIP Code (OPTIONAL)
+              </label>
+              <input class="w-full p-2 border border-gray-300 rounded" id="zipCode" type="text"/>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Supplier Contact Personnel Name
+              </label>
+              <input class="w-full p-2 border border-gray-300 rounded" id="contactPerson" type="text"/>
+             </div>
+             <div>
+              <label class="block text-gray-700">
+               Barangay Number (OPTIONAL)
+              </label>
+              <input class="w-full p-2 border border-gray-300 rounded" id="barangayNumber" type="text"/>
+             </div>
+             <div class="col-span-2 text-red-500 hidden" id="errorMessage">
+              Please fill up all required fields
+             </div>
+             <div class="col-span-2 flex justify-end space-x-2">
+              <button class="bg-yellow-700 text-white px-4 py-2 rounded" id="addSupplierButton" onclick="validateForm()" type="button">
+               Add Supplier
+              </button>
+              <button class="bg-blue-500 text-white px-4 py-2 rounded hidden" id="updateSupplierButton" onclick="validateForm()" type="button">
+               Update Supplier
+              </button>
+              <button class="bg-green-700 text-white px-4 py-2 rounded" type="reset">
+               Reset
+              </button>
+              <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="cancelEdit()" type="button">
+               Cancel
+              </button>
+             </div>
+            </form>
+           </div>
+           </div>
+           </div>
+          </div>
+         </div>
+         <div class="mt-6 ml-8">
+          <h3 class="text-lg font-bold mb-4">
+           Supplier List
+          </h3>
+          <table class="min-w-full bg-white border border-gray-200" id="supplierTable">
+           <thead>
+            <tr class="bg-green-700 text-white uppercase text-sm leading-normal">
+             <th class="py-3 px-2 text-left">
+              SNO
+             </th>
+             <th class="py-3 px-6 text-left">
+             SUPPLIER NAME
+             </th>
+              <th class="py-3 px-2 text-left">
+              ITEM
+             </th>
+              <th class="py-3 px-2 text-left">
+              PHONE NUMBER
+             </th>
+              <th class="py-3 px-2 text-left">
+              EMAIL
+             </th>
+              <th class="py-3 px-2 text-left">
+              STATUS
+             </th>
+              <th class="py-3 px-2 text-left">
+              CONTACT PERSON
+             </th>
+              <th class="py-3 px-2 text-left">
+              ADDRESS
+             </th>
+              <th class="py-3 px-2 text-left">
+              ZIP CODE
+             </th>
+              <th class="py-3 px-2 text-left">
+              BARANGAY NUMBER
+             </th>
+              <th class="py-3 px-2 text-left">
+              ACTIONS
+             </th>
+            </tr>
+           </thead>
+           <tbody class="text-gray-600 text-sm font-light">
+            <tr class="border-b border-gray-200 hover:bg-gray-100">
+             <td class="py-3 px-6 text-left">
+              2024001
+             </td>
+             <td class="py-3 px-6 text-left">
+              ducati
+             </td>
+             <td class="py-3 px-6 text-left">
+              Chicken books
+             </td>
+             <td class="py-3 px-6 text-left">
+              (63) 0937-639-1538
+             </td>
+             <td class="py-3 px-6 text-left">
+              charmaine.copeda@gmail.com
+             </td>
+             <td class="py-3 px-6 text-left">
+              Active
+             </td>
+             <td class="py-3 px-6 text-left">
+              Contact Personnel Name
+             </td>
+             <td class="py-3 px-6 text-left">
+              Address Building
+             </td>
+              <td class="py-3 px-6 text-left">
+              Zip Code
+             </td>
+             <td class="py-3 px-6 text-left">
+              Barangay Number
+             </td>
+             <td class="py-3 px-6 text-center">
+              <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2 w-full" onclick="editSupplier(this)">
+               Edit
+              </button>
+              <button class="bg-green-700 text-white px-4 py-2 rounded w-full" onclick="showPreviousDetails('ducati', 'Chicken books', '(63) 0937-639-1538', 'charmaine.copeda@gmail.com', 'Active', 'Contact Personnel Name', 'Address Building', 'Zip Code', 'Barangay Number')" type="button">
+               Previous Supplier Details
+              </button>
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+        <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden" id="modal">
+         <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full" id="modalContent">
+         </div>
+        </div>
+       </body>
+      </html>
+
+{% endblock content %}

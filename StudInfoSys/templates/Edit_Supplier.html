@@ -1,0 +1,70 @@
+<!-- EDIT SUPPLIER OF FDG-IMS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+<!-- INCLUDES SIDEBAR MENU -->
+{% include 'Sidebar.html' %}
+<script src="./dist/js/demo-theme.min.js?1692870487"></script>
+<div class="page">
+
+  <div class="page-wrapper">
+
+    <!-- INCLUDES HEADER -->
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Edit Supplier
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+        <!-- PAGE BODY -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <label class="form-label required">Supplier Name</label>
+                      <input type="text" class="form-control" placeholder="Enter supplier name"/>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label required">Phone Number</label>
+                      <input type="tel" class="form-control" autocomplete="off" placeholder="Enter supplier number"/>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label required">Email</label>
+                      <div>
+                        <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter supplier email">
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label required">Address</label>
+                      <div>
+                        <input type="text" class="form-control" placeholder="Enter supplier address">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-end">
+                    <a href="Supplier_List.html" class="btn btn-success">Save Changes</a>
+                    <a href="reset_url" class="btn btn-danger">Archive Supplier</a>
+                    <a href="Admin_Home.html" class="btn btn-secondary">Cancel</a>
+                </div>                
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>      
+
+{% endblock content %}

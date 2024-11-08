@@ -1,0 +1,339 @@
+<!-- EDIT SUPPLIER OF FDG-IMS -->
+
+<!-- EXTENDS CCS/ JS LINKS -->
+{% extends 'Base_Template.html' %}
+
+<!-- MAIN CONTENT OF ADMIN -->
+{% block content %}
+
+<!-- INCLUDES SIDEBAR MENU -->
+{% include 'Sidebar.html' %}
+<script src="./dist/js/demo-theme.min.js?1692870487"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #003f0f; /* Green background */
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        position: relative;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    .header h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+    .header .close {
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 0; /* Changed to square */
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+    .form-group textarea {
+        resize: vertical;
+        height: 80px;
+    }
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-row .form-group {
+        flex: 1;
+        margin-right: 10px;
+    }
+    .form-row .form-group:last-child {
+        margin-right: 0;
+    }
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .form-actions .cancel {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        width: 150px; /* Set a fixed width */
+        justify-content: center; /* Center the text */
+    }
+    .form-actions .submit {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        width: 150px; /* Set a fixed width */
+        justify-content: center; /* Center the text */
+    }
+    .form-actions .submit i {
+        margin-right: 5px;
+    }
+    .form-actions .reset {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        width: 150px; /* Set a fixed width */
+        justify-content: center; /* Center the text */
+    }
+    .form-actions .reset i {
+        margin-right: 5px;
+    }
+    .form-group-inline {
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-group-inline .form-group {
+        flex: 1;
+        margin-right: 10px;
+    }
+    .form-group-inline .form-group:last-child {
+        margin-right: 0;
+    }
+    .error-message {
+        color: red;
+        font-size: 14px;
+        display: none;
+        margin-top: 10px;
+    }
+    .ui-datepicker {
+        z-index: 1000 !important;
+        background-color: #28a745; /* Green background */
+    }
+    .ui-datepicker-header {
+        background-color: yellow; /* Yellow background */
+    }
+    .ui-datepicker-prev, .ui-datepicker-next {
+        cursor: pointer;
+    }
+    .ui-datepicker-prev::before, .ui-datepicker-next::before {
+        content: '\25C0'; /* Left arrow */
+        margin-right: 5px;
+    }
+    .ui-datepicker-next::before {
+        content: '\25B6'; /* Right arrow */
+        margin-left: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2>New request</h2>
+        <button onclick="window.location.href='Add_Purch.html';" class="bg-red-400 text-white px-4 py-2 rounded-lg flex items-center">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="form-group">
+        <label for="request-number">Request Number</label>
+        <input type="text" id="request-number" value="2024001" readonly>
+    </div>
+    <div class="form-group">
+        <label for="product">Select Product</label>
+        <select id="product">
+            <option value="">Select a product</option>
+            <option>Books</option>
+            <option>Stationery</option>
+            <option>Electronics</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="supplier">Select Supplier</label>
+        <select id="supplier">
+            <option value="">Select a supplier</option>
+            <option>REX Publishing</option>
+            <option>ABC Supplies</option>
+            <option>XYZ Distributors</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="reason">Reason of Request</label>
+        <textarea id="reason"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="date-requested">Date Requested</label>
+        <input type="text" id="date-requested" placeholder="MM/DD/YY">
+    </div>
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status">
+            <option value="">Select status</option>
+            <option>Paid</option>
+            <option>Unpaid</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="confirmation">Confirmation Request</label>
+        <select id="confirmation">
+            <option value="">Select confirmation</option>
+            <option>Pending</option>
+            <option>Accepted</option>
+            <option>Rejected</option>
+        </select>
+    </div>
+    <div class="form-group-inline">
+        <div class="form-group">
+            <label for="quantity">Item Quantity</label>
+            <input type="number" id="quantity" value="1" min="1">
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount Price</label>
+            <input type="number" id="amount" value="100.00" min="0" step="0.01">
+        </div>
+    </div>
+    <div class="form-group-inline">
+        <div class="form-group">
+            <label for="sales-tax">Sales Tax</label>
+            <input type="number" id="sales-tax" value="10.00" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="shipping">Shipping & Handling</label>
+            <input type="number" id="shipping" value="5.00" min="0" step="0.01">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="total-amount">Total Amount</label>
+        <input type="number" id="total-amount" value="115.00" readonly>
+    </div>
+    <div class="error-message" id="error-message">Please fill up all the required fields.</div>
+    <div class="form-actions">
+        <button class="reset"><i class="fas fa-redo"></i> Reset</button>
+        <button onclick="window.location.href='Purchase_Req.html';" class="cancel">Cancel</button>
+        <button class="submit"><i class="fas fa-plus"></i> Add request</button>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $("#date-requested").datepicker({
+            dateFormat: "mm/dd/yy"
+        }).datepicker("setDate", new Date());
+    });
+
+    document.getElementById('quantity').addEventListener('input', calculateTotal);
+    document.getElementById('amount').addEventListener('input', calculateTotal);
+    document.getElementById('sales-tax').addEventListener('input', calculateTotal);
+    document.getElementById('shipping').addEventListener('input', calculateTotal);
+
+    function calculateTotal() {
+        const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const salesTax = parseFloat(document.getElementById('sales-tax').value) || 0;
+        const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+
+        const total = (quantity * amount) + salesTax + shipping;
+        document.getElementById('total-amount').value = total.toFixed(2);
+    }
+
+    let requestNumber = 2024001;
+
+    document.querySelector('.submit').addEventListener('click', function(event) {
+        event.preventDefault();
+        const requiredFields = ['product', 'supplier', 'reason', 'date-requested', 'status', 'confirmation'];
+        let allFilled = true;
+
+        requiredFields.forEach(function(field) {
+            const element = document.getElementById(field);
+            if (!element.value) {
+                element.style.borderColor = 'red';
+                allFilled = false;
+            } else {
+                element.style.borderColor = '#ced4da';
+            }
+        });
+
+        if (allFilled) {
+            if (confirm('Do you want to add this purchase order?')) {
+                alert('Purchase order added successfully!');
+                requestNumber++;
+                document.getElementById('request-number').value = requestNumber;
+            } else {
+                alert('Purchase order not added.');
+            }
+        } else {
+            document.getElementById('error-message').textContent = 'Please fill up all the fields.';
+            document.getElementById('error-message').style.display = 'block';
+        }
+    });
+
+    document.querySelector('.reset').addEventListener('click', function() {
+        document.getElementById('product').value = '';
+        document.getElementById('supplier').value = '';
+        document.getElementById('reason').value = '';
+        document.getElementById('date-requested').value = '';
+        document.getElementById('status').value = '';
+        document.getElementById('confirmation').value = '';
+        document.getElementById('quantity').value = '1';
+        document.getElementById('amount').value = '100.00';
+        document.getElementById('sales-tax').value = '10.00';
+        document.getElementById('shipping').value = '5.00';
+        document.getElementById('total-amount').value = '115.00';
+        document.getElementById('error-message').style.display = 'none';
+        const requiredFields = ['product', 'supplier', 'reason', 'date-requested', 'status', 'confirmation'];
+        requiredFields.forEach(function(field) {
+            const element = document.getElementById(field);
+            element.style.borderColor = '#ced4da';
+        });
+    });
+</script>
+</body>
+
+{% endblock content %}

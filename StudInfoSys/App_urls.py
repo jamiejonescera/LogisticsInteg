@@ -5,7 +5,14 @@ from . import views  # Ensure to import your views
 urlpatterns = [
     path('', views.admin_homepage),
     path('Admin_Home.html', views.admin_homepage),
-    path('Add_Inv.html', views.add_inventory),
+
+    #add classroom
+    path('Add_Inv.html', views.add_inventory, name="add_inventory"),
+    path('add_inventory/', views.add_inventory_save, name='add_inventory_save'),
+
+
+
+
     path('Depreciated_Inv.html', views.depreciated_inventory),
     path('Depart_Inv.html', views.depart_inv),
     path('Purchase_Req.html', views.purchase_request),

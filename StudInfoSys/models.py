@@ -23,5 +23,9 @@ class Supplier(models.Model):
     barangay_number = models.CharField(max_length=10, blank=True, null=True)  # Barangay Code (Optional)
     created_at = models.DateTimeField(auto_now_add=True)  # Auto timestamp
 
+class Classroom(models.Model):
+    class_name = models.CharField(max_length=255)
+    capacity = models.IntegerField()
+    logistics_info = models.TextField()
     def __str__(self):
         return self.sname

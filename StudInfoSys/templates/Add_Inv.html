@@ -13,48 +13,59 @@
 
   <div class="page-wrapper">
 
-    <!-- INCLUDES HEADER -->
-    <div class="page-header d-print-none">
-      <div class="container-xl">
-        <div class="row g-2 align-items-center">
-          <div class="col">
-            <h2 class="page-title">
-              Add Classroom
-            </h2>
-          </div>
-        </div>
-      </div>
-    </div>
- 
-        <!-- PAGE BODY -->
+  
+  
+            <!-- INCLUDES HEADER -->
+            <div class="page-header d-print-none">
+              <div class="container-xl">
+                <div class="row g-2 align-items-center">
+                  <div class="col">
+                    <h2 class="page-title">
+                      Add Classroom
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PAGE BODY -->
             <div class="page-body">
-          <div class="container-xl">
-            <div class="row row-cards">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">New Classroom</h3>
-                  </div>
-                  <div class="card-body">
-                    <div class="mb-3">
-                      <label class="form-label required">Asset Name</label>
-                      <div>
-                        <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter Asset name">
+              <div class="container-xl">
+                <div class="row row-cards">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">New Classroom</h3>
                       </div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label required">Capacity</label>
-                      <div>
-                        <input type="number" class="form-control" placeholder="Enter capacity">
-                      </div>
+                      <div class="card-body">
+                        <!-- Form to add new classroom -->
+                        <form method="POST" action="{% url 'add_inventory_save' %}">
+                          {% csrf_token %}
+                          <div class="mb-3">
+                            <label class="form-label required">Classroom Name</label>
+                            <div>
+                              <input type="text" class="form-control" name="class_name" placeholder="Enter Classroom Name" required>
+                            </div>
+                          </div>
+
+                          <div class="mb-3">
+                            <label class="form-label required">Capacity</label>
+                            <div>
+                              <input type="number" class="form-control" name="capacity" placeholder="Enter Classroom Capacity" required>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="card-footer text-end">
+                          <!-- Buttons -->
+                          <button type="submit" class="btn btn-success">Add Classroom</button>
+                          <a href="reset_url" class="btn btn-danger">Reset</a>
+                          <a href="Admin_Home.html" class="btn btn-secondary">Cancel</a>
+                        </div>
+                      </form>
                     </div>
                   </div>
-                  <div class="card-footer text-end">
-                    <a href="Depart_Inv.html" class="btn btn-success">Add Supplier</a>
-                    <a href="reset_url" class="btn btn-danger">Reset</a>
-                    <a href="Admin_Home.html" class="btn btn-secondary">Cancel</a>
-                </div>  
-                </form>
+                </div>
               </div>
             </div>
           </div>

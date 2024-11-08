@@ -79,16 +79,12 @@ WSGI_APPLICATION = 'FlordeGrace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'LogisticsDatabase',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',  # Change this as needed
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default='postgres://postgres:admin@localhost/LogisticsDatabase')
 }
+
 
 
 # Password validation

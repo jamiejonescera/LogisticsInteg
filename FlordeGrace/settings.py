@@ -15,6 +15,7 @@ from pathlib import Path
 import os
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,8 +29,12 @@ SECRET_KEY = 'django-insecure-xsl)adhj^(+(y0x$&q18p#gdehn=miwiijvyu$lb8+up$=uyj9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'logisticsinteg.onrender.com',  # Your Render URL
+    'localhost',                    # For local testing
+    '127.0.0.1',                    # Local loopback address
 
+]
 
 
 # Application definition
@@ -53,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-]
+ ]
 
 ROOT_URLCONF = 'FlordeGrace.urls'
 
@@ -79,12 +84,13 @@ WSGI_APPLICATION = 'FlordeGrace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import dj_database_url
+
+
+
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://postgres:admin@localhost/LogisticsDatabase')
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
-
 
 
 # Password validation

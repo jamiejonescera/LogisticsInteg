@@ -1,1 +1,1 @@
-web: gunicorn FlordeGrace.wsgi:application
+web: gunicorn FlordeGrace.wsgi:application --preload --workers 3

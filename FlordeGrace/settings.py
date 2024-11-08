@@ -29,12 +29,7 @@ SECRET_KEY = 'django-insecure-xsl)adhj^(+(y0x$&q18p#gdehn=miwiijvyu$lb8+up$=uyj9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    'logisticsinteg.onrender.com',  # Your Render URL
-    'localhost',                    # For local testing
-    '127.0.0.1',                    # Local loopback address
-
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
